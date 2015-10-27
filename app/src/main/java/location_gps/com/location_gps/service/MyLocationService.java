@@ -2,12 +2,14 @@ package location_gps.com.location_gps.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import location_gps.com.location_gps.utils.MyLog;
 
@@ -41,6 +43,10 @@ public class MyLocationService extends Service
     public void onConnected(Bundle bundle) {
         MyLog.showLog("onConnected()");
 
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
+
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
 
     }
 
