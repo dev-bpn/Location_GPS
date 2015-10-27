@@ -51,6 +51,9 @@ public class MyLocationService extends Service
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
+        MyLog.showLog("Latitude: "+ latitude +"\nlongitude: " + longitude);
+
+
     }
 
     @Override
