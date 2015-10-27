@@ -3,15 +3,16 @@ package location_gps.com.location_gps;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import location_gps.com.location_gps.interfaces.location_interface;
 import location_gps.com.location_gps.service.MyLocationService;
 import location_gps.com.location_gps.utils.MyLog;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements location_interface{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         String latitude = preferences.getString("LATITUDE", "");
         String longitude = preferences.getString("LONGITUDE" , "");
         MyLog.showLog("FromMainActivity: Latitude: "+ latitude + " Longitude: " + longitude);
+
+        MyLocationService.responseData = this;
     }
 
     @Override
@@ -47,5 +50,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onGettingLatitudeAndLongitude(String latitude, String longitude) {
+        String lati = latitude;
+        String longi = longitude;
+
+        MyLog.showLog("Data from Interface: "+ lati +"  "+ longi);
     }
 }
