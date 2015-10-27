@@ -8,11 +8,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-
 import location_gps.com.location_gps.utils.MyLog;
 
 /**
@@ -28,38 +26,30 @@ public class MyLocationService extends Service
     @Override
     public void onCreate() {
         super.onCreate();
+
         mApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(com.google.android.gms.location.LocationServices.API)
                 .build();
+        mApiClient.connect();
+
         MyLog.showLog(mApiClient.toString());
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        mApiClient.connect();
-        return super.onStartCommand(intent, flags, startId);
-    }
 
     @Override
     public void onConnected(Bundle bundle) {
         MyLog.showLog("onConnected()");
 
         Location location = LocationServices.FusedLocationApi.getLastLocation(mApiClient);
-
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
         MyLog.showLog("Latitude: "+ latitude +"\nlongitude: " + longitude);
 
-
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
-        MyLog.showLog("onConnectionSuspended");
-    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -78,10 +68,23 @@ public class MyLocationService extends Service
 
     }
 
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        MyLog.showLog("onConnectionSuspended");
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         MyLog.showLog("onBind");
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mApiClient.disconnect();
+        MyLog.showLog("onDestroy Service");
     }
 }
