@@ -7,7 +7,7 @@ import android.util.Log;
  */
 public class MyLog {
 
-    public static void shoeLog(String message){
+    public static void showLog(String message){
         Log.i("MY_TAG" , message);
     }
 }
