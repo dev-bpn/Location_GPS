@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import location_gps.com.location_gps.interfaces.location_interface;
 import location_gps.com.location_gps.utils.MyLog;
 
 /**
@@ -24,6 +26,7 @@ public class MyLocationService extends Service
     private GoogleApiClient mApiClient;
     private double latitude , longitude;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    public static location_interface responseData;
 
     @Override
     public void onCreate() {
@@ -48,6 +51,7 @@ public class MyLocationService extends Service
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
+        responseData.onGettingLatitudeAndLongitude(String.valueOf(latitude) , String.valueOf(longitude));
         latitudeLongitudeInPrefs(latitude , longitude);
         MyLog.showLog("Latitude: "+ latitude +"\nlongitude: " + longitude);
 
