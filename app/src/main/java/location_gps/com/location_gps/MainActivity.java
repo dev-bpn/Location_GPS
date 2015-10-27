@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import location_gps.com.location_gps.async_task.MyCity;
 import location_gps.com.location_gps.interfaces.Location_interface;
 import location_gps.com.location_gps.service.MyLocationService;
 import location_gps.com.location_gps.utils.MyLog;
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements Location_interfac
 
         locationFromPrefs();
 
+
+
     }
 
     private void locationFromPrefs(){
@@ -34,9 +37,10 @@ public class MainActivity extends AppCompatActivity implements Location_interfac
         SharedPreferences preferences = getSharedPreferences("LOCATION_PREFS" , Context.MODE_PRIVATE);
         String latitude = preferences.getString("LATITUDE", "");
         String longitude = preferences.getString("LONGITUDE" , "");
-        MyLog.showLog("FromMainActivity: Latitude: "+ latitude + " Longitude: " + longitude);
+        MyLog.showLog("FromMainActivity: Latitude: " + latitude + " Longitude: " + longitude);
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements Location_interfac
         String lati = latitude;
         String longi = longitude;
 
+        new MyCity(MainActivity.this , Double.parseDouble(lati) , Double.parseDouble(longi)).execute();
+
         MyLog.showLog("Data from Interface: "+ lati +"  "+ longi);
     }
+
 }
