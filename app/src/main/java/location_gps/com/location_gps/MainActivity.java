@@ -1,12 +1,15 @@
 package location_gps.com.location_gps;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import location_gps.com.location_gps.service.MyLocationService;
+import location_gps.com.location_gps.utils.MyLog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this , MyLocationService.class);
         startService(intent);
+
+        SharedPreferences preferences = getSharedPreferences("LOCATION_PREFS" , Context.MODE_PRIVATE);
+        String latitude = preferences.getString("LATITUDE", "");
+        String longitude = preferences.getString("LONGITUDE" , "");
+        MyLog.showLog("FromMainActivity: Latitude: "+ latitude + " Longitude: " + longitude);
     }
 
     @Override
