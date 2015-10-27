@@ -22,13 +22,20 @@ public class MainActivity extends AppCompatActivity implements Location_interfac
         Intent intent = new Intent(this , MyLocationService.class);
         startService(intent);
 
+        MyLocationService.responseData = this;
+
+        locationFromPrefs();
+
+    }
+
+    private void locationFromPrefs(){
+
         // use this latitude or longitude by default or if no location is found.
         SharedPreferences preferences = getSharedPreferences("LOCATION_PREFS" , Context.MODE_PRIVATE);
         String latitude = preferences.getString("LATITUDE", "");
         String longitude = preferences.getString("LONGITUDE" , "");
         MyLog.showLog("FromMainActivity: Latitude: "+ latitude + " Longitude: " + longitude);
 
-        MyLocationService.responseData = this;
     }
 
     @Override
