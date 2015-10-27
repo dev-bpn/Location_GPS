@@ -7,27 +7,30 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import location_gps.com.location_gps.async_task.MyCity;
+import location_gps.com.location_gps.interfaces.AddressInterface;
 import location_gps.com.location_gps.interfaces.Location_interface;
 import location_gps.com.location_gps.service.MyLocationService;
 import location_gps.com.location_gps.utils.MyLog;
 
-public class MainActivity extends AppCompatActivity implements Location_interface {
+public class MainActivity extends AppCompatActivity implements Location_interface , AddressInterface {
 
+    TextView textView ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textView = (TextView) findViewById(R.id.textView);
 
         Intent intent = new Intent(this , MyLocationService.class);
         startService(intent);
 
         MyLocationService.responseData = this;
+        MyCity.responseData = this;
 
         locationFromPrefs();
-
-
 
     }
 
@@ -76,4 +79,8 @@ public class MainActivity extends AppCompatActivity implements Location_interfac
         MyLog.showLog("Data from Interface: "+ lati +"  "+ longi);
     }
 
+    @Override
+    public void getMyAddress(String address) {
+        textView.setText(address);
+    }
 }

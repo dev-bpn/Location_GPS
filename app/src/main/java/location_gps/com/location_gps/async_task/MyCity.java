@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+import location_gps.com.location_gps.interfaces.AddressInterface;
+
 /**
  * Created by Dell on 10/27/2015.
  */
@@ -17,6 +19,8 @@ public class MyCity extends AsyncTask<String , String , String >{
     Activity act;
     double latitude;
     double longitude;
+
+    public static AddressInterface responseData;
 
     public MyCity(Activity act, double latitude, double longitude) {
 
@@ -40,7 +44,7 @@ public class MyCity extends AsyncTask<String , String , String >{
             String adminArea = addresses.get(0).getAdminArea();
             String subAdminArea = addresses.get(0).getSubAdminArea();
 
-            result = addressLine+ " "+ locality + " " + subAdminArea +" "+ adminArea;
+            result = addressLine+ "  "+ locality + "  "+ subLocality + "  " + subAdminArea +"  "+ adminArea;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +55,7 @@ public class MyCity extends AsyncTask<String , String , String >{
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         if(result != null && !result.isEmpty()){
-
+            responseData.getMyAddress(result);
         }
     }
 
