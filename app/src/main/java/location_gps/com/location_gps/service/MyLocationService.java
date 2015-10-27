@@ -2,8 +2,10 @@ package location_gps.com.location_gps.service;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -46,10 +48,20 @@ public class MyLocationService extends Service
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
+        latitudeLongitudeInPrefs(latitude , longitude);
         MyLog.showLog("Latitude: "+ latitude +"\nlongitude: " + longitude);
 
     }
 
+    private void latitudeLongitudeInPrefs(double latitude , double longitude){
+
+        SharedPreferences preferences = getSharedPreferences("LOCATION_PREFS" , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("LATITUDE" , String.valueOf(latitude));
+        editor.putString("LONGITUDE" , String.valueOf(longitude));
+        editor.apply();
+
+    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
