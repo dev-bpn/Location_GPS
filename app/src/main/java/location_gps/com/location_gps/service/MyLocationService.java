@@ -1,7 +1,9 @@
 package location_gps.com.location_gps.service;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -20,7 +22,8 @@ public class MyLocationService extends Service
         implements GoogleApiClient.ConnectionCallbacks , GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mApiClient;
-    private static double latitude , longitude;
+    private double latitude , longitude;
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     @Override
     public void onCreate() {
@@ -58,6 +61,18 @@ public class MyLocationService extends Service
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         MyLog.showLog("onConnectionFailed");
+
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult((Activity) getApplicationContext(), CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        } else {
+            MyLog.showLog(String.valueOf(connectionResult.getErrorCode()));
+        }
+
     }
 
     @Nullable
