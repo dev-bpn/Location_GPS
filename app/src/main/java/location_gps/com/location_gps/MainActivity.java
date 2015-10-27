@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import location_gps.com.location_gps.interfaces.location_interface;
+import location_gps.com.location_gps.interfaces.Location_interface;
 import location_gps.com.location_gps.service.MyLocationService;
 import location_gps.com.location_gps.utils.MyLog;
 
-public class MainActivity extends AppCompatActivity implements location_interface{
+public class MainActivity extends AppCompatActivity implements Location_interface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements location_interfac
         Intent intent = new Intent(this , MyLocationService.class);
         startService(intent);
 
+        // use this latitude or longitude by default or if no location is found.
         SharedPreferences preferences = getSharedPreferences("LOCATION_PREFS" , Context.MODE_PRIVATE);
         String latitude = preferences.getString("LATITUDE", "");
         String longitude = preferences.getString("LONGITUDE" , "");
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements location_interfac
         return super.onOptionsItemSelected(item);
     }
 
+
+    // for updated latitude and longitude use this data
     @Override
     public void onGettingLatitudeAndLongitude(String latitude, String longitude) {
         String lati = latitude;
